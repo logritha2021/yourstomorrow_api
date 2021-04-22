@@ -31,7 +31,7 @@ public class Question {
 
   @Id
   @Column(unique = true, name = "id", nullable = false)
-  private String id = UUID.randomUUID().toString();
+  private String id = UUID.randomUUID().toString().replace("-", "");
 
   @NotNull(message = "question can not be empty")
   private String question;
