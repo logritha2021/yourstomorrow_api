@@ -1,6 +1,7 @@
 package com.yourstomorrow.api.controllers;
 
 import com.yourstomorrow.api.exceptions.InvalidDataException;
+import com.yourstomorrow.api.exceptions.UnauthorizedUserException;
 import com.yourstomorrow.api.models.ErrorResponse;
 
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,15 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     error.setMessage(ex.getMessage());
     error.setError("BAD_REQUEST");
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(UnauthorizedUserException.class)
+  public final ResponseEntity<ErrorResponse> unauthorized(InvalidDataException ex, WebRequest request) {
+    ErrorResponse error = new ErrorResponse();
+    error.setStatus(HttpStatus.UNAUTHORIZED);
+    error.setMessage(ex.getMessage());
+    error.setError("UNAUTHORIZED");
+    return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
   }
 
   @ExceptionHandler(NullPointerException.class)
