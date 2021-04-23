@@ -14,6 +14,7 @@ public class VideoService {
 
   final Integer defaultStartIndex = 1;
   final Integer defaultEndIndex = 3;
+  final Integer videoOffset = 10;
 
   @Autowired
   IVideoRepository videoRepo;
@@ -32,10 +33,19 @@ public class VideoService {
     return savedvideo;
   }
 
-  public List<Video> getVideoBySubjectName(String subjectName) {
+  public List<Video> getVideoBySubjectName(String subjectName, Integer page) {
     if (subjectName == null || subjectName.length() == 0) {
       throw new InvalidDataException("subject name missing in path");
     }
-    return videoRepo.findVideoBySubject(subjectName);
+    if (page == null) {
+      page = 1;
+    }
+    Integer startindex = (videoOffset * (page - 1)) + 1;
+    Integer endindex = startindex + videoOffset - 1;
+    return videoRepo.findVideoBySubject(subjectName, startindex, endindex);
+  }
+
+  public List<String> getAllSubjectNames() {
+    return videoRepo.getDistinctSubjectNames();
   }
 }

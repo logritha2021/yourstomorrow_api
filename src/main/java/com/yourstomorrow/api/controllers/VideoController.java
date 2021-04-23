@@ -3,7 +3,6 @@ package com.yourstomorrow.api.controllers;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import com.yourstomorrow.api.models.Video;
 import com.yourstomorrow.api.services.VideoService;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,11 +40,21 @@ public class VideoController {
   }
 
   @GetMapping("/subject/{name}")
-  public ResponseEntity<List<Video>> bySubjectName(@PathVariable String name) {
-    List<Video> allVideos = service.getVideoBySubjectName(name);
+  public ResponseEntity<List<Video>> bySubjectName(@PathVariable String name,
+      @RequestParam(required = false) Integer page) {
+    List<Video> allVideos = service.getVideoBySubjectName(name, page);
     if (allVideos.size() == 0) {
       return new ResponseEntity<>(allVideos, HttpStatus.NO_CONTENT);
     }
     return new ResponseEntity<>(allVideos, HttpStatus.OK);
+  }
+
+  @GetMapping("/subject/names")
+  public ResponseEntity<List<String>> allSubjectNames() {
+    List<String> allnames = service.getAllSubjectNames();
+    if (allnames.size() == 0) {
+      return new ResponseEntity<>(allnames, HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<>(allnames, HttpStatus.OK);
   }
 }
