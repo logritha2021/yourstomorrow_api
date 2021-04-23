@@ -1,7 +1,11 @@
 package com.yourstomorrow.api.controllers;
 
-import com.yourstomorrow.api.models.User;
+import javax.validation.Valid;
 
+import com.yourstomorrow.api.models.User;
+import com.yourstomorrow.api.services.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
+  @Autowired
+  UserService userService;
+
   @PostMapping("")
-  public User createNewUser() {
-    User newuser = new User();
-    return newuser;
+  public ResponseEntity<User> createNewUser(@Valid @RequestBody User user) {
+    User newuser = userService.createNewUser(user);
+    return new ResponseEntity<>(newuser, HttpStatus.CREATED);
   }
 
   @PostMapping("/test/join/{testid}")
