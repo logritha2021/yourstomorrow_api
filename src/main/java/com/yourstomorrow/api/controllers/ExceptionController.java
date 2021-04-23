@@ -32,7 +32,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
   }
 
-  @ExceptionHandler(NullPointerException.class)
+  // @ExceptionHandler(NullPointerException.class)
   public final ResponseEntity<ErrorResponse> nullPointer(NullPointerException ex, WebRequest request) {
     ErrorResponse error = new ErrorResponse();
     error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -28,4 +28,9 @@ public class QuestionService {
     List<Question> qs = questionRepository.findAll();
     return qs;
   }
+
+  public List<Question> getQuestionsByIds(List<String> questionIds) {
+    List<Question> qs = questionRepository.findAllById(questionIds);
+    return qs;
+  }
 }
