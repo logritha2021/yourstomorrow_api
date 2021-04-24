@@ -6,9 +6,8 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +28,8 @@ public class TestAnswer {
   private String questionId;
   private String testId;
   private String answer;
+
   @JsonIgnore
+  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
   private Date updatedAt = new Date();
 }

@@ -42,7 +42,7 @@ public class TestController {
 
   @PostMapping("/question")
   public ResponseEntity<Void> addQuestionsToTest(@RequestBody AddQuestionToTest body) {
-    testService.addQuestionsToTest(body.getTestId(), body.getQuestionIds());
+    testService.addQuestionsToTest(body.getTestId(), body.getQuestions());
     return new ResponseEntity<Void>(HttpStatus.CREATED);
   }
 

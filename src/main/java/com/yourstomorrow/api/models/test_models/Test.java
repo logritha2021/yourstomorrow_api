@@ -34,21 +34,16 @@ public class Test {
 
   @NotNull(message = "test date must be a valid date")
 
-  @JsonFormat(pattern = "dd/MM/yyyy")
-  private Date date;
+  private Integer registeredUsers = 0;
 
-  private Integer total = 100;
+  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+  private Date startTime;
 
-  private Integer current = 0;
+  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+  private Date endTime;
 
   @JsonIgnore
+  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
   private Date createdAt = new Date();
 
-  @JsonIgnore
-  public boolean isOpen() {
-    if (this.current >= this.total) {
-      return false;
-    }
-    return true;
-  }
 }

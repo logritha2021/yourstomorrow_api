@@ -5,6 +5,8 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.yourstomorrow.api.constants.Level;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +24,6 @@ public class TestQuestion {
   private String id = UUID.randomUUID().toString().replace("-", "");
   private String testId;
   private String questionId;
+  private String subject;
+  private Level level;
 }

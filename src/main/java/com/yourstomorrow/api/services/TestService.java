@@ -12,7 +12,6 @@ import com.yourstomorrow.api.models.Question;
 import com.yourstomorrow.api.models.test_models.Test;
 import com.yourstomorrow.api.models.test_models.TestAnswer;
 import com.yourstomorrow.api.models.test_models.TestQuestion;
-import com.yourstomorrow.api.repository.IAnswerRespository;
 import com.yourstomorrow.api.repository.ITestAnswerRepository;
 import com.yourstomorrow.api.repository.ITestQuestionRepository;
 import com.yourstomorrow.api.repository.ITestRepository;
@@ -36,7 +35,7 @@ public class TestService {
 
   public Test createNewTest(Test test) {
     Date presenDate = new Date();
-    if (!test.getDate().after(presenDate)) {
+    if (!test.getStartTime().after(presenDate)) {
       throw new InvalidDataException("test data can not be before today's date");
     }
     testRepository.save(test);
@@ -59,17 +58,19 @@ public class TestService {
     return questionIds;
   }
 
-  public void addQuestionsToTest(String testId, List<String> questionIds) {
+  public void addQuestionsToTest(String testId, List<TestQuestion> questions) {
     Test test = this.getTestById(testId);
     if (test == null) {
       throw new InvalidDataException("test id does not exist");
     } else {
       Set<String> presentQids = new HashSet<>(this.getQuestIdsByTest(testId));
-      List<TestQuestion> tosave = new ArrayList<>(questionIds.size());
-      for (String qId : questionIds) {
-        if (!presentQids.contains(qId)) {
+      List<TestQuestion> tosave = new ArrayList<>(questions.size());
+      for (TestQuestion question : questions) {
+        if (!presentQids.contains(question.getId())) {
           TestQuestion temp = new TestQuestion();
-          temp.setQuestionId(qId);
+          temp.setLevel(question.getLevel());
+          temp.setSubject(question.getSubject());
+          temp.setQuestionId(question.getId());
           temp.setTestId(testId);
           tosave.add(temp);
         }

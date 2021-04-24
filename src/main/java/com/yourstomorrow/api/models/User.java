@@ -39,10 +39,11 @@ public class User {
 
   private String email;
 
-  @JsonFormat(pattern = "dd/MM/yyyy")
+  @JsonFormat(pattern = "dd-MM-yyyy")
   @Nullable
   private Date dob;
 
   @JsonIgnore
+  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
   private Date updatedAt = new Date();
 }
