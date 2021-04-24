@@ -9,11 +9,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.yourstomorrow.api.exceptions.InvalidDataException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,4 +42,7 @@ public class User {
   @JsonFormat(pattern = "dd/MM/yyyy")
   @Nullable
   private Date dob;
+
+  @JsonIgnore
+  private Date updatedAt = new Date();
 }
