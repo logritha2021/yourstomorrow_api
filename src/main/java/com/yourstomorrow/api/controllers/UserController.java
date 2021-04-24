@@ -45,4 +45,10 @@ public class UserController {
     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
   }
 
+  @PostMapping("/register/{testId}")
+  public ResponseEntity<User> registerForATest(@Valid @RequestBody User user) {
+    User newuser = userService.createNewUser(user);
+    return new ResponseEntity<>(newuser, HttpStatus.CREATED);
+  }
+
 }
