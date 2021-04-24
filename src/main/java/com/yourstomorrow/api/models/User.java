@@ -44,6 +44,5 @@ public class User {
   private Date dob;
 
   @JsonIgnore
-  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
   private Date updatedAt = new Date();
 }

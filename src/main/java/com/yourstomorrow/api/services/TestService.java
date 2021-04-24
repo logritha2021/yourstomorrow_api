@@ -38,6 +38,9 @@ public class TestService {
     if (!test.getStartTime().after(presenDate)) {
       throw new InvalidDataException("test data can not be before today's date");
     }
+    if (!test.getEndTime().after(test.getStartTime())) {
+      throw new InvalidDataException("test data can not be before today's date");
+    }
     testRepository.save(test);
     return test;
   }
@@ -58,20 +61,21 @@ public class TestService {
     return questionIds;
   }
 
-  public void addQuestionsToTest(String testId, List<TestQuestion> questions) {
+  public void addQuestionsToTest(String testId, List<String> questionIds) {
     Test test = this.getTestById(testId);
     if (test == null) {
       throw new InvalidDataException("test id does not exist");
     } else {
       Set<String> presentQids = new HashSet<>(this.getQuestIdsByTest(testId));
-      List<TestQuestion> tosave = new ArrayList<>(questions.size());
-      for (TestQuestion question : questions) {
+      List<Question> fullQuestion = questionService.getQuestionsByIds(questionIds);
+      List<TestQuestion> tosave = new ArrayList<>(questionIds.size());
+      for (Question question : fullQuestion) {
         if (!presentQids.contains(question.getId())) {
           TestQuestion temp = new TestQuestion();
-          temp.setLevel(question.getLevel());
-          temp.setSubject(question.getSubject());
           temp.setQuestionId(question.getId());
           temp.setTestId(testId);
+          temp.setLevel(question.getLevel());
+          temp.setSubject(question.getSubject());
           tosave.add(temp);
         }
       }

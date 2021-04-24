@@ -30,6 +30,5 @@ public class TestAnswer {
   private String answer;
 
   @JsonIgnore
-  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
   private Date updatedAt = new Date();
 }

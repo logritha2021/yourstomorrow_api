@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -32,18 +33,15 @@ public class Test {
   @Column(unique = true)
   private String name;
 
-  @NotNull(message = "test date must be a valid date")
-
   private Integer registeredUsers = 0;
 
-  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Asia/Kolkata")
   private Date startTime;
 
-  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Asia/Kolkata")
   private Date endTime;
 
   @JsonIgnore
-  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
   private Date createdAt = new Date();
 
 }
