@@ -33,4 +33,9 @@ public class QuestionService {
     List<Question> qs = questionRepository.findAllById(questionIds);
     return qs;
   }
+
+  public List<Question> getQuestionsBySubjectName(String subjectName) {
+    List<Question> qs = questionRepository.findQuestionsBySubjectName(subjectName);
+    return qs;
+  }
 }

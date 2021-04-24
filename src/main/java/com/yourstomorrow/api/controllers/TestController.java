@@ -1,6 +1,5 @@
 package com.yourstomorrow.api.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.yourstomorrow.api.models.Question;
