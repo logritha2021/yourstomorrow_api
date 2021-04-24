@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yourstomorrow.api.models.Question;
 import com.yourstomorrow.api.models.test_models.Test;
+import com.yourstomorrow.api.models.test_models.TestAnswer;
 import com.yourstomorrow.api.models.wrappers.AddQuestionToTest;
 import com.yourstomorrow.api.services.TestService;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,6 +53,16 @@ public class TestController {
       return new ResponseEntity<>(qs, HttpStatus.NO_CONTENT);
     }
     return new ResponseEntity<>(qs, HttpStatus.OK);
+  }
+
+  @PostMapping("/answer/{testId}")
+  public ResponseEntity<Void> updateAnswers(@PathVariable String testId, @RequestBody List<TestAnswer> answers,
+      @RequestHeader("x_auth_id") String userId) {
+    boolean isAdded = testService.addAnswesforATest(userId, testId, answers);
+    if (isAdded) {
+      return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
 }
