@@ -26,11 +26,14 @@ public class TestService {
 
   public Test createNewTest(Test test) {
     Date presenDate = new Date();
+    if (test.getName().length() == 0) {
+      throw new InvalidDataException("test name can not be empty");
+    }
     if (!test.getStartTime().after(presenDate)) {
-      throw new InvalidDataException("test data can not be before today's date");
+      throw new InvalidDataException("start date can not be before today's date");
     }
     if (!test.getEndTime().after(test.getStartTime())) {
-      throw new InvalidDataException("test data can not be before today's date");
+      throw new InvalidDataException("end date can not be before start date");
     }
     testRepository.save(test);
     return test;

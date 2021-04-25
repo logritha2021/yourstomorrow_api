@@ -32,6 +32,9 @@ public class UserService {
   }
 
   public User updateUserDetails(User user) {
+    if (user.getPhone().length() != 10) {
+      throw new InvalidDataException("Invalid phone number");
+    }
     userRepository.updateUserById(user.getName(), user.getPhone(), user.getEmail(), user.getDob(), new Date(),
         user.getId());
     return user;
