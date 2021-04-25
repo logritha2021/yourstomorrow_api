@@ -1,7 +1,9 @@
 package com.yourstomorrow.api.controllers;
 
 import com.yourstomorrow.api.exceptions.InvalidDataException;
+import com.yourstomorrow.api.exceptions.ServerErrorException;
 import com.yourstomorrow.api.exceptions.UnauthorizedUserException;
+import com.yourstomorrow.api.exceptions.UserNotFoundException;
 import com.yourstomorrow.api.models.ErrorResponse;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,39 +17,46 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
+  static final String failed = "failure";
+
   @ExceptionHandler(InvalidDataException.class)
   public final ResponseEntity<ErrorResponse> invalidData(InvalidDataException ex, WebRequest request) {
     ErrorResponse error = new ErrorResponse();
-    error.setStatus(HttpStatus.BAD_REQUEST);
     error.setMessage(ex.getMessage());
-    error.setError("BAD_REQUEST");
-    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    error.setStatus(failed);
+    error.setPayload("BAD_REQUEST");
+    return new ResponseEntity<>(error, HttpStatus.OK);
   }
 
   @ExceptionHandler(UnauthorizedUserException.class)
-  public final ResponseEntity<ErrorResponse> unauthorized(InvalidDataException ex, WebRequest request) {
-    ErrorResponse error = new ErrorResponse();
-    error.setStatus(HttpStatus.UNAUTHORIZED);
-    error.setMessage(ex.getMessage());
-    error.setError("UNAUTHORIZED");
-    return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-  }
-
-  // @ExceptionHandler(NullPointerException.class)
-  public final ResponseEntity<ErrorResponse> nullPointer(NullPointerException ex, WebRequest request) {
-    ErrorResponse error = new ErrorResponse();
-    error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-    error.setMessage("Null pointer exception");
-    error.setError("INTERNAL_SERVER_ERROR");
-    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+  public final ResponseEntity<Void> unauthorized(InvalidDataException ex, WebRequest request) {
+    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
   }
 
   @ExceptionHandler(DataIntegrityViolationException.class)
   public final ResponseEntity<ErrorResponse> dataIntegrity(DataIntegrityViolationException ex, WebRequest request) {
     ErrorResponse error = new ErrorResponse();
-    error.setStatus(HttpStatus.BAD_REQUEST);
     error.setMessage(ex.getMessage());
-    error.setError("DUPLICATE_ENTRY");
-    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    error.setStatus(failed);
+    error.setPayload("BAD_REQUEST");
+    return new ResponseEntity<>(error, HttpStatus.OK);
+  }
+
+  @ExceptionHandler(ServerErrorException.class)
+  public final ResponseEntity<ErrorResponse> serverError(ServerErrorException ex, WebRequest request) {
+    ErrorResponse error = new ErrorResponse();
+    error.setMessage(ex.getMessage());
+    error.setStatus(failed);
+    error.setPayload("INTERNAL_SERVER_ERROR");
+    return new ResponseEntity<>(error, HttpStatus.OK);
+  }
+
+  @ExceptionHandler(UserNotFoundException.class)
+  public final ResponseEntity<ErrorResponse> userNotFound(UserNotFoundException ex, WebRequest request) {
+    ErrorResponse error = new ErrorResponse();
+    error.setMessage(ex.getMessage());
+    error.setStatus(failed);
+    error.setPayload("NOT_FOUND");
+    return new ResponseEntity<>(error, HttpStatus.OK);
   }
 }

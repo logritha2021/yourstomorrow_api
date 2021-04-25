@@ -2,12 +2,12 @@ package com.yourstomorrow.api.controllers;
 
 import javax.validation.Valid;
 
+import com.yourstomorrow.api.exceptions.UserNotFoundException;
 import com.yourstomorrow.api.models.User;
+import com.yourstomorrow.api.models.wrappers.Response;
 import com.yourstomorrow.api.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,31 +24,31 @@ public class UserController {
   UserService userService;
 
   @PostMapping("")
-  public ResponseEntity<User> createNewUser(@Valid @RequestBody User user) {
+  public Response<User> createNewUser(@Valid @RequestBody User user) {
     User newuser = userService.createNewUser(user);
-    return new ResponseEntity<>(newuser, HttpStatus.CREATED);
+    return new Response<>(newuser);
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<User> getUserDetails(@PathVariable String userId) {
+  public Response<User> getUserDetails(@PathVariable String userId) {
     User user = userService.getUserDetails(userId);
     if (user == null) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      throw new UserNotFoundException();
     }
-    return new ResponseEntity<>(user, HttpStatus.OK);
+    return new Response<>(user);
   }
 
   @PutMapping("/{userId}")
-  public ResponseEntity<User> updateUserDetails(@RequestBody User user, @PathVariable String userId) {
+  public Response<User> updateUserDetails(@RequestBody User user, @PathVariable String userId) {
     user.setId(userId);
     User updatedUser = userService.updateUserDetails(user);
-    return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    return new Response<>(updatedUser);
   }
 
   @PostMapping("/register/{testId}")
-  public ResponseEntity<User> registerForATest(@Valid @RequestBody User user) {
+  public Response<User> registerForATest(@Valid @RequestBody User user) {
     User newuser = userService.createNewUser(user);
-    return new ResponseEntity<>(newuser, HttpStatus.CREATED);
+    return new Response<>(newuser);
   }
 
 }

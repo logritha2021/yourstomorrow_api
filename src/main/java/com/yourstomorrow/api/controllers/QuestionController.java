@@ -5,11 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.yourstomorrow.api.models.Question;
+import com.yourstomorrow.api.models.wrappers.Response;
 import com.yourstomorrow.api.services.QuestionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,27 +22,21 @@ public class QuestionController {
   QuestionService questionService;
 
   @PostMapping("/question")
-  public ResponseEntity<Question> addNewQuesion(@Valid @RequestBody Question question) {
+  public Response<Question> addNewQuesion(@Valid @RequestBody Question question) {
     Question savedQuestion = questionService.addNewQuestion(question);
-    return new ResponseEntity<>(savedQuestion, HttpStatus.CREATED);
+    return new Response<>(savedQuestion);
   }
 
   @GetMapping("/question")
-  public ResponseEntity<List<Question>> getQuestions() {
+  public Response<List<Question>> getQuestions() {
     List<Question> qs = questionService.getQuestions();
-    if (qs.size() == 0) {
-      return new ResponseEntity<>(qs, HttpStatus.NO_CONTENT);
-    }
-    return new ResponseEntity<>(qs, HttpStatus.OK);
+    return new Response<>(qs);
   }
 
   @GetMapping("/question/{subjectName}")
-  public ResponseEntity<List<Question>> getQuestionsBySubject(@PathVariable String subjectName) {
+  public Response<List<Question>> getQuestionsBySubject(@PathVariable String subjectName) {
     List<Question> qs = questionService.getQuestionsBySubjectName(subjectName);
-    if (qs.size() == 0) {
-      return new ResponseEntity<>(qs, HttpStatus.NO_CONTENT);
-    }
-    return new ResponseEntity<>(qs, HttpStatus.OK);
+    return new Response<>(qs);
   }
 
 }

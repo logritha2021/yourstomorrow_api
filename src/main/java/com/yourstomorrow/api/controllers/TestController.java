@@ -2,15 +2,15 @@ package com.yourstomorrow.api.controllers;
 
 import java.util.List;
 
+import com.yourstomorrow.api.exceptions.ServerErrorException;
 import com.yourstomorrow.api.models.Question;
 import com.yourstomorrow.api.models.test_models.Test;
 import com.yourstomorrow.api.models.test_models.TestAnswer;
 import com.yourstomorrow.api.models.wrappers.AddQuestionToTest;
+import com.yourstomorrow.api.models.wrappers.Response;
 import com.yourstomorrow.api.services.TestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,43 +26,37 @@ public class TestController {
   TestService testService;
 
   @PostMapping("")
-  public ResponseEntity<Test> createNewTest(@RequestBody Test test) {
+  public Response<Test> createNewTest(@RequestBody Test test) {
     Test newtest = testService.createNewTest(test);
-    return new ResponseEntity<>(newtest, HttpStatus.CREATED);
+    return new Response<>(newtest);
   }
 
   @GetMapping("")
-  public ResponseEntity<List<Test>> getAllTests() {
+  public Response<List<Test>> getAllTests() {
     List<Test> alltest = testService.getAllTests();
-    if (alltest.size() == 0) {
-      return new ResponseEntity<>(alltest, HttpStatus.NO_CONTENT);
-    }
-    return new ResponseEntity<>(alltest, HttpStatus.OK);
+    return new Response<>(alltest);
   }
 
   @PostMapping("/question")
-  public ResponseEntity<Void> addQuestionsToTest(@RequestBody AddQuestionToTest body) {
+  public Response<Void> addQuestionsToTest(@RequestBody AddQuestionToTest body) {
     testService.addQuestionsToTest(body.getTestId(), body.getQuestionIds());
-    return new ResponseEntity<Void>(HttpStatus.CREATED);
+    return new Response<>();
   }
 
   @GetMapping("/question/{testId}")
-  public ResponseEntity<List<Question>> getQuestionsOfTest(@PathVariable String testId) {
+  public Response<List<Question>> getQuestionsOfTest(@PathVariable String testId) {
     List<Question> qs = testService.getQuestionsOfTest(testId);
-    if (qs.size() == 0) {
-      return new ResponseEntity<>(qs, HttpStatus.NO_CONTENT);
-    }
-    return new ResponseEntity<>(qs, HttpStatus.OK);
+    return new Response<>(qs);
   }
 
   @PostMapping("/answer/{testId}")
-  public ResponseEntity<Void> updateAnswers(@PathVariable String testId, @RequestBody List<TestAnswer> answers,
+  public Response<Void> updateAnswers(@PathVariable String testId, @RequestBody List<TestAnswer> answers,
       @RequestHeader("x_auth_id") String userId) {
     boolean isAdded = testService.addAnswesforATest(userId, testId, answers);
-    if (isAdded) {
-      return new ResponseEntity<>(HttpStatus.CREATED);
+    if (!isAdded) {
+      throw new ServerErrorException("answer not added.please retry");
     }
-    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    return new Response<>();
   }
 
 }
