@@ -2,7 +2,7 @@ package com.yourstomorrow.api.services;
 
 import java.util.Date;
 
-import com.yourstomorrow.api.models.UserTestStats;
+import com.yourstomorrow.api.models.user_models.UserTestStats;
 import com.yourstomorrow.api.repository.IUserTestStatRepostory;
 
 import org.springframework.beans.factory.annotation.Autowired;

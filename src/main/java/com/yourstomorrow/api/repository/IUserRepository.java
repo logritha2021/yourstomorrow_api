@@ -2,9 +2,7 @@ package com.yourstomorrow.api.repository;
 
 import java.util.Date;
 
-// import javax.transaction.Transactional;
-
-import com.yourstomorrow.api.models.User;
+import com.yourstomorrow.api.models.user_models.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

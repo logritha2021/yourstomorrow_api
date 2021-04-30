@@ -3,9 +3,10 @@ package com.yourstomorrow.api.controllers;
 import javax.validation.Valid;
 
 import com.yourstomorrow.api.exceptions.UserNotFoundException;
-import com.yourstomorrow.api.models.User;
+import com.yourstomorrow.api.models.user_models.User;
 import com.yourstomorrow.api.models.wrappers.PhoneNumber;
 import com.yourstomorrow.api.models.wrappers.Response;
+import com.yourstomorrow.api.models.wrappers.UserId;
 import com.yourstomorrow.api.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,8 @@ public class UserController {
   }
 
   @PostMapping("/register/{testId}")
-  public Response<Void> registerForATest(@Valid @RequestBody User user, @PathVariable String testId) {
-    userService.regiterForAtest(user.getId(), testId);
+  public Response<Void> registerForATest(@Valid @RequestBody UserId body, @PathVariable String testId) {
+    userService.regiterForAtest(body.getUserId(), testId);
     return new Response<>();
   }
 

@@ -1,6 +1,6 @@
 package com.yourstomorrow.api.repository;
 
-import com.yourstomorrow.api.models.UserTestStats;
+import com.yourstomorrow.api.models.user_models.UserTestStats;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package com.yourstomorrow.api.models;
+package com.yourstomorrow.api.models.user_models;
 
 import java.util.Date;
 import java.util.Map;

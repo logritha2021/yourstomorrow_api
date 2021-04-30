@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import com.yourstomorrow.api.exceptions.InvalidDataException;
 import com.yourstomorrow.api.exceptions.TestNotFoundException;
-import com.yourstomorrow.api.models.User;
-import com.yourstomorrow.api.models.UserTestStats;
 import com.yourstomorrow.api.models.test_models.Test;
+import com.yourstomorrow.api.models.user_models.User;
+import com.yourstomorrow.api.models.user_models.UserTestStats;
 import com.yourstomorrow.api.repository.IUserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
