@@ -20,6 +20,8 @@ public class UserTestStatsService {
   public UserTestStats createNewStat(String testId, String userId) {
     UserTestStats newstat = new UserTestStats();
     newstat.setRegisteredAt(new Date());
+    newstat.setTestId(testId);
+    newstat.setUserId(userId);
     return repo.save(newstat);
   }
 }

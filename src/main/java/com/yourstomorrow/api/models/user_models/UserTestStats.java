@@ -55,7 +55,7 @@ public class UserTestStats {
   private Integer mediumCorrect = 0;
   private Integer hardCorrect = 0;
 
-  @Column(columnDefinition = "JSON", name = "subject_correct")
+  @Column(columnDefinition = "JSON")
   @Nullable
   @ElementCollection
   private Map<String, Integer> subjectCorrect;
