@@ -9,6 +9,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,7 +34,9 @@ public class UserTestStats {
   @Id
   @Column(unique = true)
   private String id = UUID.randomUUID().toString().replace("-", "");
+  @NotNull(message = "test id can not be null")
   private String testId;
+  @NotNull(message = "user id can not be null")
   private String userId;
 
   @JsonIgnore
@@ -51,8 +54,11 @@ public class UserTestStats {
   private Date CompletedAt = null;
 
   private Integer attempted = 0;
+
   private Integer easyCorrect = 0;
+
   private Integer mediumCorrect = 0;
+
   private Integer hardCorrect = 0;
 
   @Column(columnDefinition = "JSON")
