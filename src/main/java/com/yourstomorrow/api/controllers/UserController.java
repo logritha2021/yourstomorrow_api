@@ -31,7 +31,6 @@ public class UserController {
 
   @PostMapping("/info")
   public Response<User> getUserDetails(@RequestBody PhoneNumber body) {
-    // System.out.println("phone number " + phone);
     User user = userService.getUserDetails(body.getPhone());
     if (user == null) {
       throw new UserNotFoundException();
@@ -47,9 +46,9 @@ public class UserController {
   }
 
   @PostMapping("/register/{testId}")
-  public Response<User> registerForATest(@Valid @RequestBody User user) {
-    User newuser = userService.createNewUser(user);
-    return new Response<>(newuser);
+  public Response<Void> registerForATest(@Valid @RequestBody User user, @PathVariable String testId) {
+    userService.regiterForAtest(user.getId(), testId);
+    return new Response<>();
   }
 
 }

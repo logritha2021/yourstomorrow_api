@@ -3,6 +3,7 @@ package com.yourstomorrow.api.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "answers")
+@Entity
+@Table(name = "answers")
 public class Answer {
 
   @Id

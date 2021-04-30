@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -22,7 +23,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Entity(name = "tests")
+@Entity
+@Table(name = "tests")
 public class Test {
   @Id
   @Column(unique = true)
@@ -42,5 +44,11 @@ public class Test {
 
   @JsonIgnore
   private Date createdAt = new Date();
+
+  @JsonIgnore
+  public boolean isTestOpen() {
+    Date now = new Date();
+    return now.before(this.startTime);
+  }
 
 }

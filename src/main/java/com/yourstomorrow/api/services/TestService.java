@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.yourstomorrow.api.exceptions.InvalidDataException;
+import com.yourstomorrow.api.exceptions.TestNotFoundException;
 import com.yourstomorrow.api.models.Question;
 import com.yourstomorrow.api.models.test_models.Test;
 import com.yourstomorrow.api.models.test_models.TestAnswer;
@@ -53,7 +54,7 @@ public class TestService {
   public void addQuestionsToTest(String testId, List<String> questionIds) {
     Test test = this.getTestById(testId);
     if (test == null) {
-      throw new InvalidDataException("test id does not exist");
+      throw new TestNotFoundException();
     } else {
       questionService.addQuestionsToTest(testId, questionIds);
     }
@@ -63,7 +64,7 @@ public class TestService {
   public List<Question> getQuestionsOfTest(String testId) {
     Test test = this.getTestById(testId);
     if (test == null) {
-      throw new InvalidDataException("test id does not exist");
+      throw new TestNotFoundException();
     }
     List<Question> questions = questionService.getQuestionsOfTest(testId);
     return questions;
@@ -72,7 +73,7 @@ public class TestService {
   public boolean addAnswesforATest(String userId, String testId, List<TestAnswer> answers) {
     Test test = this.getTestById(testId);
     if (test == null) {
-      throw new InvalidDataException("test id does not exist");
+      throw new TestNotFoundException();
     }
     answerService.addAnswesforATest(userId, testId, answers);
     return true;

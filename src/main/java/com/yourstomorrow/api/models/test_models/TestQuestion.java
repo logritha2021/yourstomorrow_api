@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.yourstomorrow.api.constants.Level;
 
@@ -18,7 +19,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "test_questions")
+@Entity
+@Table(name = "test_questions")
 public class TestQuestion {
   @Id
   private String id = UUID.randomUUID().toString().replace("-", "");

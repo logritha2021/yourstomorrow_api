@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,7 +20,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "test_answers")
+@Entity
+@Table(name = "test_answers")
 public class TestAnswer {
   @Id
   private String id = UUID.randomUUID().toString().replace("-", "");

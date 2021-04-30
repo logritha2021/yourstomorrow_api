@@ -6,13 +6,13 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.lang.Nullable;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class User {
   @Id
   @Column(unique = true)
@@ -40,7 +41,7 @@ public class User {
   private String email;
 
   @JsonFormat(pattern = "dd-MM-yyyy")
-  @Nullable
+  @NotNull(message = "date of birth cannot be empty")
   private Date dob;
 
   @JsonIgnore
