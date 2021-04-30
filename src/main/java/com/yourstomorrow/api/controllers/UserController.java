@@ -4,11 +4,11 @@ import javax.validation.Valid;
 
 import com.yourstomorrow.api.exceptions.UserNotFoundException;
 import com.yourstomorrow.api.models.User;
+import com.yourstomorrow.api.models.wrappers.PhoneNumber;
 import com.yourstomorrow.api.models.wrappers.Response;
 import com.yourstomorrow.api.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,9 +29,10 @@ public class UserController {
     return new Response<>(newuser);
   }
 
-  @GetMapping("/{userId}")
-  public Response<User> getUserDetails(@PathVariable String userId) {
-    User user = userService.getUserDetails(userId);
+  @PostMapping("/info")
+  public Response<User> getUserDetails(@RequestBody PhoneNumber body) {
+    // System.out.println("phone number " + phone);
+    User user = userService.getUserDetails(body.getPhone());
     if (user == null) {
       throw new UserNotFoundException();
     }

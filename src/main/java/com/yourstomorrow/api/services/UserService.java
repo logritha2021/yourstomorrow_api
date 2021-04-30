@@ -1,7 +1,6 @@
 package com.yourstomorrow.api.services;
 
 import java.util.Date;
-import java.util.Optional;
 
 import com.yourstomorrow.api.exceptions.InvalidDataException;
 import com.yourstomorrow.api.models.User;
@@ -24,11 +23,12 @@ public class UserService {
     }
   }
 
-  public User getUserDetails(String userId) {
-    Optional<User> user = userRepository.findById(userId);
-    if (user.isEmpty())
-      return null;
-    return user.get();
+  public User getUserDetails(String phone) {
+    if (phone.length() != 10) {
+      throw new InvalidDataException("Invalid phone number");
+    }
+    User user = userRepository.findUserByPhone(phone);
+    return user;
   }
 
   public User updateUserDetails(User user) {

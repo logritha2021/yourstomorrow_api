@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
-  static final String failed = "failure";
+  static final String failed = "failed";
 
   @ExceptionHandler(InvalidDataException.class)
   public final ResponseEntity<ErrorResponse> invalidData(InvalidDataException ex, WebRequest request) {
