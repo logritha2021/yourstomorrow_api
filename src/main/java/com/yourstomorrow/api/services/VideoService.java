@@ -7,6 +7,8 @@ import com.yourstomorrow.api.models.Video;
 import com.yourstomorrow.api.repository.IVideoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,8 +21,12 @@ public class VideoService {
   @Autowired
   IVideoRepository videoRepo;
 
-  public List<Video> getAllVideos() {
-    return videoRepo.findVideos(defaultStartIndex, defaultEndIndex);
+  public List<Video> getAllVideos(Integer page) {
+    if (page == null) {
+      page = 1;
+    }
+    Pageable pagination = PageRequest.of(page, videoOffset);
+    return videoRepo.findAll(pagination).toList();
   }
 
   public Video addNewVideo(Video v) {

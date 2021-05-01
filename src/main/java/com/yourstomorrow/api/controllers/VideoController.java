@@ -24,8 +24,8 @@ public class VideoController {
   VideoService service;
 
   @GetMapping("")
-  public Response<List<Video>> getVideos() {
-    List<Video> allVids = service.getAllVideos();
+  public Response<List<Video>> getVideos(@RequestParam(required = false) Integer page) {
+    List<Video> allVids = service.getAllVideos(page);
     return new Response<>(allVids);
   }
 
