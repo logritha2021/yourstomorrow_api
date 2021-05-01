@@ -46,7 +46,7 @@ public class Test {
   private Date createdAt = new Date();
 
   @JsonIgnore
-  public boolean isTestOpen() {
+  public boolean isOpen() {
     Date now = new Date();
     return now.before(this.startTime);
   }

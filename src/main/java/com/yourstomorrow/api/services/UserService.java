@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import com.yourstomorrow.api.exceptions.InvalidDataException;
+import com.yourstomorrow.api.exceptions.TestEndedException;
 import com.yourstomorrow.api.exceptions.TestNotFoundException;
 import com.yourstomorrow.api.models.test_models.Test;
 import com.yourstomorrow.api.models.user_models.User;
@@ -22,7 +23,7 @@ public class UserService {
   TestService testService;
 
   @Autowired
-  UserTestStatsService testStatsService;
+  StatsService statsService;
 
   public User createNewUser(User user) {
     if (user.getPhone().length() != 10) {
@@ -55,9 +56,12 @@ public class UserService {
     if (test == null) {
       throw new TestNotFoundException();
     }
-    UserTestStats stats = testStatsService.findStatByUserAndTestId(testId, userId);
+    if (!test.isOpen()) {
+      throw new TestEndedException();
+    }
+    UserTestStats stats = statsService.findUserTestStatByUserAndTestId(testId, userId);
     if (stats == null) {
-      testStatsService.createNewStat(testId, userId);
+      statsService.createANewUserTestStat(testId, userId);
     }
     return;
   }

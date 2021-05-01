@@ -1,13 +1,18 @@
 package com.yourstomorrow.api.models.test_models;
 
+import java.io.Serializable;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.lang.Nullable;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,9 +25,12 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TestStats {
-  private String id = UUID.randomUUID().toString().replace("-", "");
+@Entity
+@Table(name = "test_stats")
+@TypeDef(name = "json", typeClass = JsonStringType.class)
+public class TestStats implements Serializable {
 
+  @Id
   @NotNull(message = "test id can not be null")
   private String testId;
 
@@ -32,10 +40,9 @@ public class TestStats {
 
   private Integer hard = 0;
 
-  private Integer totalUsers = 0;
+  private Integer totalQuestions = 0;
 
-  @Column(columnDefinition = "JSON")
-  @Nullable
-  @ElementCollection
+  @Type(type = "json")
+  @Column(columnDefinition = "json")
   private Map<String, Integer> subject;
 }

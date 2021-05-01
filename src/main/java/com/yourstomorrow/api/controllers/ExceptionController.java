@@ -2,6 +2,7 @@ package com.yourstomorrow.api.controllers;
 
 import com.yourstomorrow.api.exceptions.InvalidDataException;
 import com.yourstomorrow.api.exceptions.ServerErrorException;
+import com.yourstomorrow.api.exceptions.TestEndedException;
 import com.yourstomorrow.api.exceptions.TestNotFoundException;
 import com.yourstomorrow.api.exceptions.UnauthorizedUserException;
 import com.yourstomorrow.api.exceptions.UserNotFoundException;
@@ -67,6 +68,15 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     error.setMessage(ex.getMessage());
     error.setStatus(failed);
     error.setPayload("NOT_FOUND");
+    return new ResponseEntity<>(error, HttpStatus.OK);
+  }
+
+  @ExceptionHandler(TestEndedException.class)
+  public final ResponseEntity<ErrorResponse> testalreadyEnded(TestEndedException ex, WebRequest request) {
+    ErrorResponse error = new ErrorResponse();
+    error.setMessage(ex.getMessage());
+    error.setStatus(failed);
+    error.setPayload("BAD_REQUEST");
     return new ResponseEntity<>(error, HttpStatus.OK);
   }
 }
