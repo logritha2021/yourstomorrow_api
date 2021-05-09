@@ -46,9 +46,9 @@ public class TestService {
 
   public Test getTestById(String testid) {
     Optional<Test> test = testRepository.findById(testid);
-    if (test.isEmpty())
-      return null;
-    return test.get();
+    if (test.isPresent())
+      return test.get();
+    return null;
   }
 
   public void addQuestionsToTest(String testId, List<String> questionIds) {

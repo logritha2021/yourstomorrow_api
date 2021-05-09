@@ -62,9 +62,9 @@ public class StatsService {
 
   public TestStats findATestStat(String testId) {
     Optional<TestStats> teststat = testStatrepository.findById(testId);
-    if (teststat.isEmpty())
-      return null;
-    return teststat.get();
+    if (teststat.isPresent())
+      return teststat.get();
+    return null;
   }
 
   public UserTestStats findUserTestStatByUserAndTestId(String testId, String userId) {
