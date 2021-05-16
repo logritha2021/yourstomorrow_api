@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.yourstomorrow.api.constants.Gender;
 import org.hibernate.validator.constraints.Length;
 
 import lombok.Getter;
@@ -44,6 +45,13 @@ public class User {
   @NotNull(message = "date of birth cannot be empty")
   private Date dob;
 
+  private String experience;
+
+  private Gender gender;
+
   @JsonIgnore
   private Date updatedAt = new Date();
+
+  @JsonIgnore
+  private Date createdAt = new Date();
 }

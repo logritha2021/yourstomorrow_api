@@ -29,9 +29,10 @@ public class Video {
   private String id = UUID.randomUUID().toString().replace("-", "");
   private Integer videoIndex;
   private String subject;
-
-  @NotNull(message = "videourl can not be empty")
+  private String videoThumbnail;
+  @NotNull(message = "video url can not be empty")
   @JsonProperty("videoUrl")
   private String videoUrl;
+  @NotNull(message = "video title can not be empty")
   private String title;
 }

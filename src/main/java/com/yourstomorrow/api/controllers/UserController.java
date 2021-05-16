@@ -39,6 +39,15 @@ public class UserController {
     return new Response<>(user);
   }
 
+  @PostMapping("/exists")
+  public Response<String> isUserExists(@RequestBody PhoneNumber body) {
+    User user = userService.getUserDetails(body.getPhone());
+    if (user == null) {
+      throw new UserNotFoundException();
+    }
+    return new Response<>("EXISTS");
+  }
+
   @PutMapping("/{userId}")
   public Response<User> updateUserDetails(@RequestBody User user, @PathVariable String userId) {
     user.setId(userId);
